@@ -5,8 +5,20 @@ import BookList from "./components/BookList";
 function App() {
   const [books, setBooks] = useState([]);
 
+  // 112. Updating the Title
+  const editBookById = (id, newTitle) => {
+    const updatedBooks = books.map((book) => {
+      if (book.id === id) {
+        return { ...book, title: newTitle };
+      }
+      return book;
+    });
+    setBooks(updatedBooks);
+  };
+
   // 109. Deleting Records
   const deleteBookById = (id) => {
+    // filter always returns a new array. don't have to use ... (spread operator)
     const updatedBooks = books.filter((book) => {
       return book.id !== id;
     });
@@ -21,7 +33,6 @@ function App() {
       { id: Math.round(Math.random() * 9999), title },
     ];
     setBooks(updatedBooks);
-    console.log(books);
 
     // 💥BAD CODE!💥
     // books.push({ id: 123, title: title });
@@ -31,7 +42,8 @@ function App() {
 
   return (
     <div className="app">
-      <BookList books={books} onDelete={deleteBookById} />
+      <h1>Reading List</h1>
+      <BookList books={books} onDelete={deleteBookById} onEdit={editBookById} />
       <BookCreate onCreate={createBook} />
     </div>
   );
