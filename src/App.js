@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BookCreate from "./components/BookCreate";
 import BookList from "./components/BookList";
+import axios from "axios";
 
 function App() {
   const [books, setBooks] = useState([]);
+
+  // When are we going to call fetchBooks?
+  const fetchBooks = async () => {
+    const response = await axios.get("http://localhost:3001/books");
+
+    setBooks(response.data);
+  };
+
+  // Don't do this!
+  // fetchBooks();
 
   // 112. Updating the Title
   const editBookById = (id, newTitle) => {
@@ -27,11 +38,12 @@ function App() {
   };
 
   // 106. Adding a Book!
-  const createBook = (title) => {
-    const updatedBooks = [
-      ...books,
-      { id: Math.round(Math.random() * 9999), title },
-    ];
+  const createBook = async (title) => {
+    const response = await axios.post("http://localhost:3001/books", {
+      title: title,
+    });
+
+    const updatedBooks = [...books, response.data];
     setBooks(updatedBooks);
 
     // 💥BAD CODE!💥
