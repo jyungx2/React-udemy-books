@@ -1,11 +1,18 @@
 import { useState } from "react";
 import BookEdit from "./BookEdit";
+// 🥣
+// import BooksContext from "../context/books";
+import useBooksContext from "../hooks/use-books-context";
 
-function BookShow({ book, onDelete, onEdit }) {
+// 🍀
+// ❌({ book, onDelete, onEdit })❌
+function BookShow({ book }) {
   const [showEdit, setShowEdit] = useState(false);
+  const { deleteBookById } = useBooksContext();
 
   const handleDeleteClick = () => {
-    onDelete(book.id);
+    // onDelete(book.id); 🍀
+    deleteBookById(book.id);
   };
 
   // 110. Toggling Form Display
@@ -14,10 +21,10 @@ function BookShow({ book, onDelete, onEdit }) {
   };
 
   // 🧩 close the edit tap after editing! => 아래에 <BookEdit />의 Prop(=onSubmit)으로 보내줌..
-  const handleSubmit = (id, newTitle) => {
+  const handleSubmit = () => {
     setShowEdit(false);
     // 📌 114. A better solution! (onEdit를 Prop으로 물려주지 말고, 여기서 그냥 같이 실행!!)
-    onEdit(id, newTitle);
+    // onEdit(id, newTitle); 🍀 => 매개변수 (id, newTitle) 삭제
   };
 
   let content = <h3>{book.title}</h3>;

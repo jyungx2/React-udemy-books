@@ -1,7 +1,15 @@
+// 🍀 context
 import { useState } from "react";
+// 🥣
+import useBooksContext from "../hooks/use-books-context";
+// import BooksContext from "../context/books";
 
-function BookCreate({ onCreate }) {
+// 🍀 ({ onCreate }) 더 이상 이 Prop 물려받지 않을 것!
+// -> useContext 임포트해 BooksContext 안에 내재돼 있는 createBook 함수 가져와서 쓸 것!
+function BookCreate() {
   const [title, setTitle] = useState("");
+  // 🍀
+  const { createBook } = useBooksContext();
 
   const handleChange = (event) => {
     setTitle(event.target.value);
@@ -9,7 +17,8 @@ function BookCreate({ onCreate }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onCreate(title);
+    // onCreate(title); 🍀
+    createBook(title);
     setTitle("");
   };
 
